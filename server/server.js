@@ -4,7 +4,7 @@ const express = require( 'express' );
 const morgan = require( 'morgan' );
 const path = require( 'path' );
 const fs = require( 'fs' );
-
+const mock =require('../mock.json');
 //setup mongoose
 mongoose.connect('mongodb://127.0.0.1/experiences');
 var db = mongoose.connection;
@@ -26,22 +26,9 @@ var modelSchema = new Schema( {
 } );
 
 var Detail = mongoose.model('Detail', modelSchema);
-
 //uncomment to repopulate database
-// fs.readFile('mock.json', 'utf8', (err, data) => {
-//   if (err) { 
-//     throw err; 
-//   } else {
-//     data = JSON.parse(data)
-//     console.log(data)
-//     Detail.create(data, ( err ) => {
-//       if ( err ) throw err;
-//       else {
-//         console.log( 'worked!' );
-//       }
-//     })
-//   }
-// }) 
+
+
 
 //setup express
 const port = process.env.PORT || 3004;
