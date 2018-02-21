@@ -1,15 +1,15 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
-  "license": "",
+  "name": "details",
+  "version": "1.0.0",
+  "description": "module which displays the details of the experience",
+  "author": "Matthew Sweeney",
+  "license": "UNLICENSED",
   "engines": {
     "node": ">=6.13.0"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
+    "nodemon": "^1.15.1"
   },
   "devDependencies": {
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
