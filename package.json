@@ -9,7 +9,9 @@
   },
   "scripts": {},
   "dependencies": {
-    "nodemon": "^1.15.1"
+    "nodemon": "^1.15.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
