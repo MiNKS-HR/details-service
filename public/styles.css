@@ -1,0 +1,34 @@
+body{
+  font-family:'Arial';
+ 
+}
+
+#details {
+  width: 400px;
+}
+
+.detail-list {
+  width: 400px;
+}
+
+.info-align{
+ display: flex;
+ width: 400px;
+ justify-content: space-around;
+}
+
+.host-picture {
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
+  float:right;
+  margin-left: 10px;
+}
+
+e-category-host {
+  margin-right:10px;
+}
+
+.info {
+  width: 500px;
+}
