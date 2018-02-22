@@ -6,6 +6,7 @@
 - What I'll provide
 - Who can come
 - Notes
+- Map Location
 
 ## Requirements
 
