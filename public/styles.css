@@ -2,7 +2,10 @@ body{
   font-family:'Arial';
  
 }
-
+.map {
+  height: 400px;
+  width: 400px;
+}
 #details {
   width: 400px;
 }
