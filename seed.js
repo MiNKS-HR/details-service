@@ -17,16 +17,18 @@ var modelSchema = new Schema( {
   what_well_do: String,
   what_ill_provide: String,
   who_can_come: String,
-  notes: String
+  notes: String,
+  lat: Number,
+  long: Number
 } );
 var Detail = mongoose.model('Detail', modelSchema);
 
 Detail.find({}).remove(() => {
   Detail.create(mock, ( err ) => {
     if ( err ) throw err;
-    else {
-      console.log( 'worked!' );
-      db.close();
-    }
+    console.log( 'worked!' );
+    db.close();
   })
 });
+
+module.exports = modelSchema;
