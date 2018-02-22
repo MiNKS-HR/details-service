@@ -1,5 +1,6 @@
 import GoogleMapReact from 'google-map-react';
 import ReactDOM from 'react-dom';
+import key from '../config';
 import React from 'react';
 import $ from 'jquery';
 
@@ -32,7 +33,7 @@ class Details extends React.Component{
   }
   
   getExperience( ) {
-    fetch('http://localhost:3004/experience/details',)
+  
     $.ajax({
       method: 'GET',
       url: 'http://localhost:3004/experience/details',
@@ -79,9 +80,9 @@ class Details extends React.Component{
       <h3>Where we'll be</h3>
       <div className="map"> 
         <GoogleMapReact
-            bootstrapURLKeys={ {key: 'AIzaSyANpVXqkiV6BtLen3EThU2p-cLoNsdCNF0'} }
+            bootstrapURLKeys={ key }
             defaultCenter={ {lat: this.state.e.lat, lng: this.state.e.long} }
-            defaultZoom={ 4 }>
+            defaultZoom={ 12 }>
           </GoogleMapReact>
       </div>
     </div> );
