@@ -1,18 +1,22 @@
+:root {
+  --width: 500px
+}
+
 body{
   font-family:'Arial';
  
 }
 #details {
-  width: 400px;
+  width: var(--width);
 }
 
 .detail-list {
-  width: 400px;
+  width: var(--width);
 }
 
 .info-align{
   display: flex;
-  width: 400px;
+  width: var(--width);
   justify-content: space-around;
 }
 
@@ -32,6 +36,6 @@ e-category-host {
   width: 500px;
 }
 .map {
-  height: 400px;
-  width: 400px;
+  height: var(--width);
+  width: var(--width);
 }

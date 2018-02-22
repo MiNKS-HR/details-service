@@ -1,50 +1,45 @@
-const parser =  require( 'body-parser' );
-const mongoose = require( 'mongoose' );
-const express = require( 'express' );
-const morgan = require( 'morgan' );
-const path = require( 'path' );
+const mongoose = require('mongoose');
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
 
-//setup mongoose
+// setup mongoose
 mongoose.connect('mongodb://127.0.0.1/experiences');
-var db = mongoose.connection;
-var Schema = mongoose.Schema;
-var modelSchema = new Schema( {
+
+const Schema = mongoose.Schema;
+const modelSchema = new Schema({
   id: Number,
-  experience_title: String,
-  host_name: String,
   experience_category: String,
+  lat: Number,
   host_picture_url: String,
-  amenities: String,
-  duration: Number,
+  notes: String,
+  what_well_do: String,
   language: String,
   host_about: String,
-  what_well_do: String,
-  what_ill_provide: String,
+  host_name: String,
+  amenities: String,
   who_can_come: String,
-  notes: String,
-  lat: Number,
-  long: Number
-} );
+  duration: Number,
+  what_ill_provide: String,
+  long: Number,
+  experience_title: String,
+});
 
 
-//setup express
-const port = process.env.PORT || 3004;
-const app = express( );
-app.use( parser.json( ));
-app.use( morgan( 'dev' ));
-app.use( express.static( path.join( __dirname, '../public' )));
+// setup express
+const app = express();
+app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/experience/details', (req, res) => {
-  var Detail = mongoose.model('Detail', modelSchema);
+  const Detail = mongoose.model('Detail', modelSchema);
   Detail.find({}, (err, data) => {
-    if (err) { 
-      throw err; 
-    } else {
-      res.send(data[0]);
-    }
+    if (err) { throw err; }
+    res.send(data[0]);
   });
 });
 
-app.listen( port, ( ) => {
-  console.log( `server running at: http://localhost:${port}` )
+const port = process.env.PORT || 3004;
+app.listen(port, () => {
+  console.log(`Server running at: http://localhost:${port}`);
 });
