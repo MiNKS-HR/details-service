@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const mock =require('./mock.json');
 
 mongoose.connect('mongodb://127.0.0.1/experiences');
-var db = mongoose.connection;
 var Schema = mongoose.Schema;
 var modelSchema = new Schema( {
   id: Number,
@@ -21,8 +20,11 @@ var modelSchema = new Schema( {
   lat: Number,
   long: Number
 } );
-var Detail = mongoose.model('Detail', modelSchema);
 
+
+// Checks to see if the collection has any items and removes them
+// before adding new items from mock.json
+var Detail = mongoose.model('Detail', modelSchema);
 Detail.find({}).remove(() => {
   Detail.create(mock, ( err ) => {
     if ( err ) throw err;
