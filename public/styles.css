@@ -2,10 +2,6 @@ body{
   font-family:'Arial';
  
 }
-.map {
-  height: 400px;
-  width: 400px;
-}
 #details {
   width: 400px;
 }
@@ -15,9 +11,9 @@ body{
 }
 
 .info-align{
- display: flex;
- width: 400px;
- justify-content: space-around;
+  display: flex;
+  width: 400px;
+  justify-content: space-around;
 }
 
 .host-picture {
@@ -34,4 +30,8 @@ e-category-host {
 
 .info {
   width: 500px;
+}
+.map {
+  height: 400px;
+  width: 400px;
 }
