@@ -1,6 +1,6 @@
 import GoogleMapReact from 'google-map-react';
 import ReactDOM from 'react-dom';
-import key from '../config';
+import key from './config';
 import React from 'react';
 import $ from 'jquery';
 
@@ -39,11 +39,23 @@ class Details extends React.Component{
       url: 'http://localhost:3004/experience/details',
       success: ( data ) => {
         this.setState({e: data});
+        
       },
       error: ( err ) => {
         console.log( 'error in client!' );
       }
     });
+  }
+
+  latLngBounds() {
+    if (Math.abs(this.state.e.lat) < 90 && Math.abs(this.state.e.lat) < 180){
+      return (<GoogleMapReact
+            bootstrapURLKeys={ key }
+            defaultCenter={ {lat: this.state.e.lat, lng: this.state.e.long} }
+            defaultZoom={ 12 }>
+          </GoogleMapReact>)
+    }
+    return (<p>Lat/Long values out of bounds!</p>)
   }
 
   render( ) {
@@ -53,7 +65,7 @@ class Details extends React.Component{
       <div className="info">
         <div className="info-align">
           <p className="e-category-host">{this.state.e.experience_category} experience<br/>Hosted by {this.state.e.host_name}</p>
-          <img className="host-picture" src={this.state.e.host_picture_url}></img>
+          <img className="host-picture" alt="Host Picture" src={this.state.e.host_picture_url}></img>
         </div>
         <ul>
           <li>{this.state.e.amenities}</li>
@@ -79,11 +91,7 @@ class Details extends React.Component{
       <hr/>
       <h3>Where we'll be</h3>
       <div className="map"> 
-        <GoogleMapReact
-            bootstrapURLKeys={ key }
-            defaultCenter={ {lat: this.state.e.lat, lng: this.state.e.long} }
-            defaultZoom={ 12 }>
-          </GoogleMapReact>
+       {this.latLngBounds()}
       </div>
     </div> );
 
