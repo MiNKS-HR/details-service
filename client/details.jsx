@@ -1,5 +1,6 @@
-import React from 'react';
+import GoogleMapReact from 'google-map-react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 import $ from 'jquery';
 
 class Details extends React.Component{
@@ -7,17 +8,20 @@ class Details extends React.Component{
     super( props );
     this.state = {
       e: {
-        "host_name": '',
-        "experience_category": '',
-        "experience_title": '',
-        "host_picture_url": '',
-        "amenities": '',
-        "duration": 0,
-        "language": '',
-        "host_about":  '',
-        "what_well_do": '',
-        "what_ill_provide":'',
-        "who_can_come": ''
+        experience_category: '',
+        experience_title: '',
+        host_picture_url: '',
+        what_ill_provide:'',
+        what_well_do: '',
+        who_can_come: '',
+        host_about:  '',
+        host_name: '',
+        amenities: '',
+        language: '',
+        duration: 0,
+        notes : '',
+        long: 0,
+        lat: 0
       }
       };
     }
@@ -26,13 +30,13 @@ class Details extends React.Component{
   componentDidMount() {
     this.getExperience();
   }
-
+  
   getExperience( ) {
+    fetch('http://localhost:3004/experience/details',)
     $.ajax({
       method: 'GET',
       url: 'http://localhost:3004/experience/details',
       success: ( data ) => {
-        console.log( data);
         this.setState({e: data});
       },
       error: ( err ) => {
@@ -71,7 +75,17 @@ class Details extends React.Component{
       <hr/>
       <h3>Notes</h3>
       <p>{this.state.e.notes}</p>
+      <hr/>
+      <h3>Where we'll be</h3>
+      <div className="map"> 
+        <GoogleMapReact
+            bootstrapURLKeys={ {key: 'AIzaSyANpVXqkiV6BtLen3EThU2p-cLoNsdCNF0'} }
+            defaultCenter={ {lat: this.state.e.lat, lng: this.state.e.long} }
+            defaultZoom={ 4 }>
+          </GoogleMapReact>
+      </div>
     </div> );
+
   }
 }
 
