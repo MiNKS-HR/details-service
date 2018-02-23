@@ -9,20 +9,28 @@ class Details extends React.Component {
     this.state = {
       e: {
         id: 0,
-        lat: 0,
-        long: 0,
+        location: {
+          lat: 0.0,
+          long: 0.0,
+        },
+        host: {
+          name: '',
+          about: '',
+          picture_url: '',
+        },
+        experience: {
+          title: '',
+          category: '',
+        },
         notes: '',
-        duration: 0,
         language: '',
-        host_name: '',
+        duration: 0,
         amenities: '',
-        host_about: '',
-        who_can_come: '',
+        view_count: 0,
+        spots_left: 0,
         what_well_do: '',
-        host_picture_url: '',
+        who_can_come: '',
         what_ill_provide: '',
-        experience_title: '',
-        experience_category: '',
       },
     };
   }
@@ -32,16 +40,19 @@ class Details extends React.Component {
     axios.get('http://localhost:3004/experience/details')
       .then((response) => {
         this.setState({ e: response.data });
+        console.log(response.data);
       }).catch((err) => {
         console.log('error in client!', err);
       });
   }
 
   latLngBounds() {
-    if (Math.abs(this.state.e.lat) < 90 && Math.abs(this.state.e.long) < 180) {
+    const { lat } = this.state.e.location;
+    const { lng } = this.state.e.location;
+    if (Math.abs(lat) < 90 && Math.abs(lng) < 180) {
       return (<GoogleMapReact
         bootstrapURLKeys={key}
-        defaultCenter={{ lat: this.state.e.lat, lng: this.state.e.long }}
+        defaultCenter={{ lat, lng }}
         defaultZoom={15}
       />);
     }
@@ -50,14 +61,14 @@ class Details extends React.Component {
 
   render() {
     return (<div className="detail-list">
-      <h1>{this.state.e.experience_title}</h1>
+      <h1>{this.state.e.experience.title}</h1>
       <hr />
       <div className="info">
         <div className="info-align">
-          <p className="e-category-host"> {this.state.e.experience_category} experience
-            <br />Hosted by {this.state.e.host_name}
+          <p className="e-category-host"> {this.state.e.experience.category} experience
+            <br />Hosted by {this.state.e.host.name}
           </p>
-          <img className="host-picture" alt="Host" src={this.state.e.host_picture_url} />
+          <img className="host-picture" alt="Host" src={this.state.e.host.picture_url} />
         </div>
         <ul>
           <li>{this.state.e.amenities}</li>
@@ -66,8 +77,11 @@ class Details extends React.Component {
         </ul>
       </div>
       <hr />
-      <h3>About your host, {this.state.e.host_name}</h3>
-      <p>{this.state.e.host_about}</p>
+      <p>People are eyeing this experience. Over {this.state.e.view_count} people have viewed it this week.</p>
+      <img src={`https://a0.muscache.com/airbnb/static/page2/icon-p2-competing-views-animated-1aa77ba0a52fd0d37a210a0f5176ddc6.gif?${  new Date().getTime()}`} />
+      <hr />
+      <h3>About your host, {this.state.e.host.name}</h3>
+      <p>{this.state.e.host.about}</p>
       <hr />
       <h3>What we'll do</h3>
       <p>{this.state.e.what_well_do}</p>
