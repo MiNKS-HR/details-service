@@ -18,7 +18,7 @@ const modelSchema = new Schema({
   notes: String,
   language: String,
   duration: Number,
-  amenities: String,
+  city: String,
   view_count: Number,
   spots_left: Number,
   what_well_do: String,
