@@ -45,7 +45,12 @@ app.get('/experience/details', (req, res) => {
   Detail.find({}, (err, data) => {
     if (err) { throw err; }
     const id = Math.floor(Math.random() * Math.floor(200));
-    Detail.findOneAndUpdate({ id: id + 1 }, { $inc: { view_count: 1 } }, { new: true });
+    Detail.findOneAndUpdate(
+      { id: id + 1 },
+      { $inc: { view_count: 1 } },
+      { new: true },
+      (error) => { if (error) { throw error; } },
+    );
     res.send(data[id]);
   });
 });
