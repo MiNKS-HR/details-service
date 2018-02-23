@@ -6,20 +6,28 @@ mongoose.connect('mongodb://127.0.0.1/experiences');
 const { Schema } = mongoose;
 const modelSchema = new Schema({
   id: Number,
-  experience_category: String,
-  lat: Number,
-  host_picture_url: String,
+  host: {
+    name: String,
+    about: String,
+    picture_url: String,
+  },
+  experience: {
+    category: String,
+    title: String,
+  },
   notes: String,
-  what_well_do: String,
   language: String,
-  host_about: String,
-  host_name: String,
-  amenities: String,
-  who_can_come: String,
   duration: Number,
+  amenities: String,
+  view_count: Number,
+  spots_left: Number,
+  what_well_do: String,
+  who_can_come: String,
   what_ill_provide: String,
-  long: Number,
-  experience_title: String,
+  location: {
+    lat: Number,
+    lng: Number,
+  },
 });
 
 
