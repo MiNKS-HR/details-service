@@ -1,40 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Palanquin:300,600');
+
 :root {
   --width: 500px
 }
 
-body{
-  font-family:'Arial';
- 
-}
 #details {
+  font-family: 'Palanquin', sans-serif; 
   width: var(--width);
 }
 
-.detail-list {
-  width: var(--width);
+h1 {
+  padding-left: 10px;
 }
 
-.info-align{
+.info-align {
   display: flex;
-  width: var(--width);
-  justify-content: space-around;
+  width: 100%;
+  justify-content: space-between;
 }
-
+.info {
+  border-bottom: 1px solid;
+}
+.host-picture-container {
+  padding-right: 10px
+}
 .host-picture {
   border-radius: 50%;
   height: 64px;
   width: 64px;
-  float:right;
-  margin-left: 10px;
+}
+.e-categoty-host {
+  width: 50%;
 }
 
-e-category-host {
-  margin-right:10px;
+.buffer {
+  width: 100px;
 }
 
-.info {
-  width: 500px;
+.section {
+  padding-left:10px;
+  border-bottom: 1px solid gray;
 }
+
+.align {
+  display: flex;
+  width: var(--width);
+  justify-content: space-around;
+  border-bottom: 1px solid;
+}
+.count {
+  width: 300px
+}
+.gif {
+  height: 45px;
+  width: 45px;
+  align-self: center;
+}
+
 .map {
   height: var(--width);
   width: var(--width);
