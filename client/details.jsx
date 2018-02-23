@@ -1,6 +1,7 @@
 import GoogleMapReact from 'google-map-react';
 import React from 'react';
 import axios from 'axios';
+import $ from 'jquery';
 import key from './config';
 
 class Details extends React.Component {
@@ -19,13 +20,13 @@ class Details extends React.Component {
           picture_url: '',
         },
         experience: {
-          title: '',
           category: '',
+          title: '',
         },
         notes: '',
         language: '',
         duration: 0,
-        amenities: '',
+        city: '',
         view_count: 0,
         spots_left: 0,
         what_well_do: '',
@@ -33,16 +34,22 @@ class Details extends React.Component {
         what_ill_provide: '',
       },
     };
+    this.getHost = this.getHost.bind(this);
   }
 
 
   componentDidMount() {
     axios.get('http://localhost:3004/experience/details')
-      .then((response) => {
-        this.setState({ e: response.data });
-      }).catch((err) => {
-        console.log('error in client!', err);
-      });
+      .then(({ data }) => {
+        this.setState({ e: data });
+      }).catch(console.log);
+  }
+
+  getHost() {
+    axios.get(`http://localhost:3004/host/${this.state.e.host.name}`)
+      .then((({ data }) => {
+        console.log(data);
+      })).catch(console.log);
   }
 
   viewCount() {
@@ -95,23 +102,33 @@ class Details extends React.Component {
     return (<p>Lat/Long values out of bounds!</p>);
   }
 
+
   render() {
     if (this.state.e.id !== 0) {
       return (
         <div className="detail-list">
           <h1>{this.state.e.experience.title}</h1>
-          <div className="info section">
-            <div className="info-align">
+          <div className="info">
+            <div className="info-align section">
               <div className="e-category-host"> {this.state.e.experience.category} experience
-                <br />Hosted by {this.state.e.host.name}
+                <br />Hosted by <div className="clickable" onClick={this.getHost}>{this.state.e.host.name}</div>
               </div>
-              {/* <div className="buffer" /> */}
               <div className="host-picture-container">
                 <img className="host-picture" alt="Host" src={this.state.e.host.picture_url} />
               </div>
             </div>
             <ul>
-              <li>{this.state.e.amenities}</li>
+              <li>
+                <div
+                  className="clickable"
+                  onClick={() => {
+                $('html, body').animate({
+                  scrollTop: $('.map').offset().top,
+                }, 1000);
+              }}
+                >{this.state.e.city}
+                </div>
+              </li>
               <li>{this.state.e.duration} hours long</li>
               <li>Offered in {this.state.e.language}</li>
             </ul>
