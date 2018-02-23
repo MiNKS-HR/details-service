@@ -111,7 +111,10 @@ class Details extends React.Component {
           <div className="info">
             <div className="info-align section">
               <div className="e-category-host"> {this.state.e.experience.category} experience
-                <br />Hosted by <div className="clickable" onClick={this.getHost}>{this.state.e.host.name}</div>
+                <br />Hosted by
+                <div className="clickable" onClick={this.getHost}>
+                  {this.state.e.host.name}
+                </div>
               </div>
               <div className="host-picture-container">
                 <img className="host-picture" alt="Host" src={this.state.e.host.picture_url} />

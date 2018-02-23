@@ -44,15 +44,13 @@ const Detail = mongoose.model('Detail', modelSchema);
 app.get('/experience/details', (req, res) => {
   Detail.find({}, (err, data) => {
     if (err) { throw err; }
-    let id = Math.floor(Math.random() * Math.floor(200));
-    id = 0;
+    const id = Math.floor(Math.random() * Math.floor(200));
     Detail.findOneAndUpdate({ id: id + 1 }, { $inc: { view_count: 1 } }, { new: true });
     res.send(data[id]);
   });
 });
 
 app.get('/host/:name', (req, res) => {
-  console.log(req.params.name);
   Detail.find({ 'host.name': req.params.name }, (err, data) => {
     if (err) { throw err; }
     res.send(data);
