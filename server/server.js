@@ -9,28 +9,28 @@ mongoose.connect('mongodb://127.0.0.1/experiences');
 const { Schema } = mongoose;
 const modelSchema = new Schema({
   id: Number,
-  location: {
-    lat: Number,
-    lng: Number,
-  },
   host: {
     name: String,
     about: String,
     picture_url: String,
   },
   experience: {
-    title: String,
     category: String,
+    title: String,
   },
-  notes: String,
-  language: String,
+  city: String,
   duration: Number,
-  amenities: String,
+  language: String,
+  what_ill_provide: String,
+  notes: String,
   view_count: Number,
   spots_left: Number,
   what_well_do: String,
   who_can_come: String,
-  what_ill_provide: String,
+  location: {
+    lat: Number,
+    lng: Number,
+  },
 });
 
 
@@ -44,9 +44,18 @@ const Detail = mongoose.model('Detail', modelSchema);
 app.get('/experience/details', (req, res) => {
   Detail.find({}, (err, data) => {
     if (err) { throw err; }
-    const id = Math.floor(Math.random() * Math.floor(200));
+    let id = Math.floor(Math.random() * Math.floor(200));
+    id = 0;
     Detail.findOneAndUpdate({ id: id + 1 }, { $inc: { view_count: 1 } }, { new: true });
     res.send(data[id]);
+  });
+});
+
+app.get('/host/:name', (req, res) => {
+  console.log(req.params.name);
+  Detail.find({ 'host.name': req.params.name }, (err, data) => {
+    if (err) { throw err; }
+    res.send(data);
   });
 });
 
