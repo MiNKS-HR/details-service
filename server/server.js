@@ -6,7 +6,7 @@ const path = require('path');
 // setup mongoose
 mongoose.connect('mongodb://127.0.0.1/experiences');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 const modelSchema = new Schema({
   id: Number,
   location: {
