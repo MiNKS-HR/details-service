@@ -33,6 +33,15 @@ h1 {
   width: 50%;
 }
 
+.clickable {
+  display:inline-block;
+  color: mediumseagreen;
+}
+.clickable:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .buffer {
   width: 100px;
 }
@@ -52,8 +61,6 @@ h1 {
   width: 300px
 }
 .gif {
-  height: 45px;
-  width: 45px;
   align-self: center;
 }
 
