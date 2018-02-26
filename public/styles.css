@@ -64,7 +64,7 @@ h1 {
   align-self: center;
 }
 
-.map {
+#map {
   height: var(--width);
   width: var(--width);
 }
