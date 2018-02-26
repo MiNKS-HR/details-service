@@ -1,7 +1,7 @@
-import GoogleMapReact from 'google-map-react';
 import React from 'react';
 import axios from 'axios';
 import $ from 'jquery';
+import Map from './map.jsx';
 import key from './config';
 
 class Details extends React.Component {
@@ -106,10 +106,9 @@ class Details extends React.Component {
     const { lat } = this.state.location;
     const { lng } = this.state.location;
     if (Math.abs(lat) < 90 && Math.abs(lng) < 180) {
-      return (<GoogleMapReact
+      return (<Map
         bootstrapURLKeys={key}
         defaultCenter={{ lat, lng }}
-        defaultZoom={15}
       />);
     }
     return (<p>Lat/Long values out of bounds!</p>);
@@ -171,9 +170,7 @@ class Details extends React.Component {
           <p>{this.state.notes}</p>
         </div>
         <h3>{'Where we\'ll be'}</h3>
-        <div className="map">
-          {/* {this.latLngBounds()} */}
-        </div>
+          {this.latLngBounds()}
       </div>);
 
   }
