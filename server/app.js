@@ -43,13 +43,13 @@ const Detail = mongoose.model('Detail', modelSchema);
 
 app.get('/experience/details', (req, res) => {
   Detail.find({}, (err, data) => {
-    if (err) { throw err; }
+    if (err) { res.sendStatus(40); }
     const id = Math.floor(Math.random() * Math.floor(200));
     Detail.findOneAndUpdate(
       { id: id + 1 },
       { $inc: { view_count: 1 } },
       { new: true },
-      (error) => { if (error) { throw error; } },
+      (dberr) => { if (dberr) { throw dberr; } },
     );
     res.send(data[id]);
   });
@@ -57,8 +57,11 @@ app.get('/experience/details', (req, res) => {
 
 app.get('/host/:name', (req, res) => {
   Detail.find({ 'host.name': req.params.name }, (err, data) => {
-    if (err) { throw err; }
-    res.send(data);
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.send(data);
+    }
   });
 });
 
