@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "airbnb",
+    "extends": "google",
     rules: {
         'no-console': 'off',
         'jsx-a11y/click-events-have-key-events' : 'off',
