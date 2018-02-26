@@ -8,58 +8,71 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      e: {
-        id: 0,
-        location: {
-          lat: 0.0,
-          long: 0.0,
-        },
-        host: {
-          name: '',
-          about: '',
-          picture_url: '',
-        },
-        experience: {
-          category: '',
-          title: '',
-        },
-        notes: '',
-        language: '',
-        duration: 0,
-        city: '',
-        view_count: 0,
-        spots_left: 0,
-        what_well_do: '',
-        who_can_come: '',
-        what_ill_provide: '',
-      },
+      otherExp: [],
+      id: props.details.id,
+      location: props.details.location,
+      host: props.details.host,
+      experience: props.details.experience,
+      notes: props.details.notes,
+      language: props.details.language,
+      duration: props.details.duration,
+      city: props.details.city,
+      view_count: props.details.view_count,
+      spots_left: props.details.spots_left,
+      what_well_do: props.details.what_well_do,
+      who_can_come: props.details.who_can_come,
+      what_ill_provide: props.details.what_ill_provide,
+    
     };
     this.getHost = this.getHost.bind(this);
+    this.getExperience = this.getExperience.bind(this);
+    this.viewCount = this.viewCount.bind(this);
+    this.spotsLeft = this.spotsLeft.bind(this);
   }
 
 
   componentDidMount() {
+    this.getExperience(console.log);
+  }
+
+  getExperience(callback) {
     axios.get('http://localhost:3004/experience/details')
       .then(({ data }) => {
-        this.setState({ e: data });
+        this.setState({
+          id: data.id,
+          location: data.location,
+          host: data.host,
+          experience: data.experience,
+          notes: data.notes,
+          language: data.language,
+          duration: data.duration,
+          city: data.city,
+          view_count: data.view_count,
+          spots_left: data.spots_left,
+          what_well_do: data.what_well_do,
+          who_can_come: data.who_can_come,
+          what_ill_provide: data.what_ill_provide,
+        });
+        callback();
       }).catch(console.log);
   }
 
   getHost() {
-    axios.get(`http://localhost:3004/host/${this.state.e.host.name}`)
+    axios.get(`http://localhost:3004/host/${this.state.host.name}`)
       .then((({ data }) => {
-        console.log(data);
+        this.setState({ otherExp: data });
+        console.log(this.otherExp);
       })).catch(console.log);
   }
 
   viewCount() {
-    const count = this.state.e.view_count;
+    const count = this.state.view_count;
     if (count > 1000) {
       return (
         <div>
           <div className="align">
             <p className="count">People are eyeing this experience.
-                Over {this.state.e.view_count} people have viewed it this week.
+                Over {count} people have viewed it this week.
             </p>
             <div className="buffer" />
             <img
@@ -75,7 +88,7 @@ class Details extends React.Component {
   }
 
   spotsLeft() {
-    const left = this.state.e.spots_left;
+    const left = this.state.spots_left;
     if (left < 10 && left !== 0) {
       return (
         <div className="align">
@@ -90,8 +103,8 @@ class Details extends React.Component {
   }
 
   latLngBounds() {
-    const { lat } = this.state.e.location;
-    const { lng } = this.state.e.location;
+    const { lat } = this.state.location;
+    const { lng } = this.state.location;
     if (Math.abs(lat) < 90 && Math.abs(lng) < 180) {
       return (<GoogleMapReact
         bootstrapURLKeys={key}
@@ -104,67 +117,65 @@ class Details extends React.Component {
 
 
   render() {
-    if (this.state.e.id !== 0) {
-      return (
-        <div className="detail-list">
-          <h1>{this.state.e.experience.title}</h1>
-          <div className="info">
-            <div className="info-align section">
-              <div className="e-category-host"> {this.state.e.experience.category} experience
-                <br />Hosted by
-                <div className="clickable" onClick={this.getHost}>
-                  {this.state.e.host.name}
-                </div>
-              </div>
-              <div className="host-picture-container">
-                <img className="host-picture" alt="Host" src={this.state.e.host.picture_url} />
+    return (
+      <div className="detail-list">
+        <h1>{this.state.experience.title}</h1>
+        <div className="info">
+          <div className="info-align section">
+            <div className="e-category-host"> {this.state.experience.category} experience
+              <br />Hosted by 
+              <div className="clickable get-host" onClick={this.getHost}>
+                {` ${this.state.host.name}`}
               </div>
             </div>
-            <ul>
-              <li>
-                <div
-                  className="clickable"
-                  onClick={() => {
-                $('html, body').animate({
-                  scrollTop: $('.map').offset().top,
-                }, 1000);
-              }}
-                >{this.state.e.city}
-                </div>
-              </li>
-              <li>{this.state.e.duration} hours long</li>
-              <li>Offered in {this.state.e.language}</li>
-            </ul>
+            <div className="host-picture-container">
+              <img className="host-picture" alt="Host" src={this.state.host.picture_url} />
+            </div>
           </div>
-          {this.viewCount()}
-          {this.spotsLeft()}
-          <div className="about section">
-            <h3>{`About your host, ${this.state.e.host.name}`}</h3>
-            <p>{this.state.e.host.about}</p>
-          </div>
-          <div className="about section">
-            <h3>{'What we\'ll do'}</h3>
-            <p>{this.state.e.what_well_do}</p>
-          </div>
-          <div className="provide section">
-            <h3>{'What I\'ll provide'}</h3>
-            <p>{this.state.e.what_ill_provide}</p>
-          </div >
-          <div className="who section">
-            <h3>Who can come</h3>
-            <p>{this.state.e.who_can_come}</p>
-          </div>
-          <div className="notes section">
-            <h3>Notes</h3>
-            <p>{this.state.e.notes}</p>
-          </div>
-          <h3>{'Where we\'ll be'}</h3>
-          <div className="map">
-            {this.latLngBounds()}
-          </div>
-        </div>);
-    }
-    return (<div />);
+          <ul>
+            <li>
+              <div
+                className="clickable show-map"
+                onClick={() => {
+              $('html, body').animate({
+                scrollTop: $('.map').offset().top,
+              }, 1000);
+            }}
+              >{this.state.city}
+              </div>
+            </li>
+            <li>{this.state.duration} hours long</li>
+            <li>Offered in {this.state.language}</li>
+          </ul>
+        </div>
+        {this.viewCount()}
+        {this.spotsLeft()}
+        <div className="about section">
+          <h3>{`About your host, ${this.state.host.name}`}</h3>
+          <p>{this.state.host.about}</p>
+        </div>
+        <div className="about section">
+          <h3>{'What we\'ll do'}</h3>
+          <p>{this.state.what_well_do}</p>
+        </div>
+        <div className="provide section">
+          <h3>{'What I\'ll provide'}</h3>
+          <p>{this.state.what_ill_provide}</p>
+        </div >
+        <div className="who section">
+          <h3>Who can come</h3>
+          <p>{this.state.who_can_come}</p>
+        </div>
+        <div className="notes section">
+          <h3>Notes</h3>
+          <p>{this.state.notes}</p>
+        </div>
+        <h3>{'Where we\'ll be'}</h3>
+        <div className="map">
+          {/* {this.latLngBounds()} */}
+        </div>
+      </div>);
+
   }
 }
 export default Details;
