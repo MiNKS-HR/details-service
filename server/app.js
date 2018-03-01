@@ -2,36 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-
-// setup mongoose
-mongoose.connect('mongodb://127.0.0.1/experiences');
-
-const { Schema } = mongoose;
-const modelSchema = new Schema({
-  id: Number,
-  host: {
-    name: String,
-    about: String,
-    picture_url: String,
-  },
-  experience: {
-    category: String,
-    title: String,
-  },
-  city: String,
-  duration: Number,
-  language: String,
-  what_ill_provide: String,
-  notes: String,
-  view_count: Number,
-  spots_left: Number,
-  what_well_do: String,
-  who_can_come: String,
-  location: {
-    lat: Number,
-    lng: Number,
-  },
-});
+const db = require('../db/app.js');
 
 
 // setup express
@@ -39,30 +10,26 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../public')));
 
-const Detail = mongoose.model('Detail', modelSchema);
+mongoose.connect('mongodb://127.0.0.1/experiences');
 
 app.get('/experience/details', (req, res) => {
-  Detail.find({}, (err, data) => {
+  db.findAll((err, data) => {
     if (err) { res.sendStatus(40); }
     const id = Math.floor(Math.random() * Math.floor(200));
-    Detail.findOneAndUpdate(
-      { id: id + 1 },
-      { $inc: { view_count: 1 } },
-      { new: true },
-      (dberr) => { if (dberr) { throw dberr; } },
-    );
+    //const id = 0;
+    db.updateViews(id+1, (dberr) => { if (dberr) throw dberr; });
     res.send(data[id]);
   });
 });
 
 app.get('/host/:name', (req, res) => {
-  Detail.find({ 'host.name': req.params.name }, (err, data) => {
-    if (err) {
-      res.sendStatus(400);
-    } else {
-      res.send(data);
-    }
-  });
+  db.findHost(req.params.name, (err, data) => {
+      if (err) {
+        res.sendStatus(400);
+      } else {
+        res.send(data);
+      }
+    });
 });
 
 module.exports = app;
