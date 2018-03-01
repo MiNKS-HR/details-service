@@ -1,8 +1,9 @@
-import GoogleMapReact from 'google-map-react';
 import React from 'react';
 import axios from 'axios';
 import $ from 'jquery';
-import key from './config';
+import Map from './map.jsx';
+import Para from './Para.jsx';
+import key from '../config';
 
 class Details extends React.Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class Details extends React.Component {
   }
 
 
-  componentDidMount() {
+  componentWillMount() {
     this.getExperience(console.log);
   }
 
@@ -61,7 +62,7 @@ class Details extends React.Component {
     axios.get(`http://localhost:3004/host/${this.state.host.name}`)
       .then((({ data }) => {
         this.setState({ otherExp: data });
-        console.log(this.otherExp);
+        console.log(this.state.otherExp);
       })).catch(console.log);
   }
 
@@ -96,7 +97,8 @@ class Details extends React.Component {
       at Jacob And Jessica’s experience next Tuesday.
           </p>
           <div className="buffer" />
-          <img className="gif" alt="clock" src="https://a0.muscache.com/airbnb/static/page2/icon-number-available-animated-074b392fde3b450acdc18e531e56ce61.gif" />
+          <img className="gif" alt="clock" src={`https://a0.muscache.com/airbnb/static/page2/icon-number-available-animated-074b392fde3b450acdc18e531e56ce61.gif?
+              ${new Date().getTime()}`} />
         </div>);
     }
     return (<div />);
@@ -106,10 +108,9 @@ class Details extends React.Component {
     const { lat } = this.state.location;
     const { lng } = this.state.location;
     if (Math.abs(lat) < 90 && Math.abs(lng) < 180) {
-      return (<GoogleMapReact
+      return (<Map
         bootstrapURLKeys={key}
         defaultCenter={{ lat, lng }}
-        defaultZoom={15}
       />);
     }
     return (<p>Lat/Long values out of bounds!</p>);
@@ -125,7 +126,7 @@ class Details extends React.Component {
             <div className="e-category-host"> {this.state.experience.category} experience
               <br />Hosted by 
               <div className="clickable get-host" onClick={this.getHost}>
-                {` ${this.state.host.name}`}
+              &thinsp; {this.state.host.name}
               </div>
             </div>
             <div className="host-picture-container">
@@ -152,28 +153,28 @@ class Details extends React.Component {
         {this.spotsLeft()}
         <div className="about section">
           <h3>{`About your host, ${this.state.host.name}`}</h3>
-          <p>{this.state.host.about}</p>
+          <Para paragraph={this.state.host.about} />
         </div>
         <div className="about section">
           <h3>{'What we\'ll do'}</h3>
-          <p>{this.state.what_well_do}</p>
+          <Para paragraph={this.state.what_well_do} />
         </div>
         <div className="provide section">
           <h3>{'What I\'ll provide'}</h3>
-          <p>{this.state.what_ill_provide}</p>
+          <Para paragraph={this.state.what_ill_provide} />
+
         </div >
         <div className="who section">
           <h3>Who can come</h3>
-          <p>{this.state.who_can_come}</p>
+          <Para paragraph={this.state.who_can_come} />
+
         </div>
         <div className="notes section">
           <h3>Notes</h3>
-          <p>{this.state.notes}</p>
+          <Para paragraph={this.state.notes} />
         </div>
         <h3>{'Where we\'ll be'}</h3>
-        <div className="map">
-          {/* {this.latLngBounds()} */}
-        </div>
+          {this.latLngBounds()}
       </div>);
 
   }
