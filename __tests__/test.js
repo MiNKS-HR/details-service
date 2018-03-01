@@ -2,16 +2,21 @@ import React from 'react';
 import { shallow, mount, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import request from 'supertest';
-import Details from '../client/details';
+import mongoose from 'mongoose';
+const Mockgoose = require('mockgoose').Mockgoose;
+import Details from '../client/components/details.jsx';
 import app from '../server/app';
+import db from '../db/app.js';
 
 configure({ adapter: new Adapter() });
+let mockgoose = new Mockgoose(mongoose);
 
 const testDetails = {
   "id":1,
   "host":{
     "name":"Matt Sweeney",
-    "about":"Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.","picture_url":"http://dummyimage.com/64x64.jpg/ff4444/ffffff"
+    "about":"Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.  Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.  Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.  Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.",
+    "picture_url":"http://dummyimage.com/64x64.jpg/ff4444/ffffff"
   },
   "experience":{
     "category":"collaboration",
@@ -33,29 +38,72 @@ const testDetails = {
 }
 
 describe('Front end tests', () => {
-  test('should render without throwing an error', () => {
+  test('should render Details without throwing an error', () => {
     expect(shallow(<Details details={testDetails}/>).exists());
   });
 
-  it('check that optional sections render given state', () => {
+  it('should render Map without throwing an error', () => {
     const wrapper = mount(<Details details={testDetails} />);
-    expect(wrapper.find('.count')).toHaveLength(2);
+    expect(wrapper.find('#map-container')).toHaveLength(1);
   });
+
+  it('should render Para without throwing an error', () => {
+    const wrapper = mount(<Details details={testDetails} />);
+    expect(wrapper.find('.para')).toHaveLength(4);
+    expect(wrapper.find('.cond-para')).toHaveLength(1);
+  });
+  
 });
 
-describe('Back end tests', () => {
+describe('Server side tests', () => {
   test('It should response the GET method', (done) => {
     request(app).get('/').then((response) => {
       expect(response.statusCode).toBe(200);
       done();
     });
   });
+});
 
-  test('It should respond with data from db', (done) => {
-    request(app).get('/experience/details').then((response) => {
-      const hasId = response.body.hasOwnProperty('id');
-      expect(hasId).toBe(true);
-      done();
+describe('Database method tests', () => {
+  beforeEach((done) => {
+    jest.setTimeout(100000);
+    mongoose.connection.close();
+    mockgoose.prepareStorage().then(() => {
+      mongoose.connect('mongodb://127.0.0.1/experiences', (err) => {
+        done(err);
+      });
+    });
+  });
+
+
+  it('should insert a detail to database', () => {
+    db.insertOne(testDetails, () => {
+      db.findAll((err, data) => {
+        if (err) throw err; 
+        expect(data.length).toEqual(1);
+      });
+    })
+  });
+
+  it('should find a host given a name and return array', () => {
+    db.insertOne(testDetails, () => {
+      db.findHost('Matt Sweeney', (err, host) => {
+        if (err) throw err;
+        expect(host.length).toEqual(1);
+        expect(Array.isArray(host)).toEqual(true);
+      })
+    });
+  });
+
+  it('should increment the view count when called', () => {
+    db.insertOne(testDetails, (data) => {
+      let vc = data.view_count;
+      db.updateViews(data.id, (err) => {
+        if (err) throw err;
+        db.findAll((err, updatedData) => {
+          expect(updatedData[0].view_count).toEqual(vc+1);
+        });
+      })
     });
   });
 });
