@@ -153,25 +153,25 @@ class Details extends React.Component {
         {this.spotsLeft()}
         <div className="about section">
           <h3>{`About your host, ${this.state.host.name}`}</h3>
-          <Para paragraph={this.state.host.about} />
+          <Para p={this.state.host.about} />
         </div>
         <div className="about section">
           <h3>{'What we\'ll do'}</h3>
-          <Para paragraph={this.state.what_well_do} />
+          <Para p={this.state.what_well_do} />
         </div>
         <div className="provide section">
           <h3>{'What I\'ll provide'}</h3>
-          <Para paragraph={this.state.what_ill_provide} />
+          <Para p={this.state.what_ill_provide} />
 
         </div >
         <div className="who section">
           <h3>Who can come</h3>
-          <Para paragraph={this.state.who_can_come} />
+          <Para p={this.state.who_can_come} />
 
         </div>
         <div className="notes section">
           <h3>Notes</h3>
-          <Para paragraph={this.state.notes} />
+          <Para p={this.state.notes} />
         </div>
         <h3>{'Where we\'ll be'}</h3>
           {this.latLngBounds()}
