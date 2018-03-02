@@ -10,13 +10,12 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../public')));
 
-mongoose.connect('mongodb://127.0.0.1/experiences');
+mongoose.connect('mongodb://localhost/experiences');
 
 app.get('/experience/details', (req, res) => {
   db.findAll((err, data) => {
     if (err) { res.sendStatus(40); }
     const id = Math.floor(Math.random() * Math.floor(200));
-    //const id = 0;
     db.updateViews(id+1, (dberr) => { if (dberr) throw dberr; });
     res.send(data[id]);
   });
