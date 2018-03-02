@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import Details from './details.jsx';
+import Details from './components/details.jsx';
 
 ReactDOM.render(<Details 
   details={{
