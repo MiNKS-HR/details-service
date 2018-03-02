@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import $ from 'jquery';
 import Map from './map.jsx';
-import Para from './Para.jsx';
+import Para from './para.jsx';
 import key from '../config';
 
 class Details extends React.Component {
