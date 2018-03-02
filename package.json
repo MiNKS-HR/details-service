@@ -11,8 +11,7 @@
     "start": "nodemon server/server.js",
     "web": "webpack -d --watch",
     "seed": "node db/seed.js",
-    "test-w": "jest --updateSnapshot --watchAll",
-    "test": "jest --updateSnapshot"
+    "test": "jest --forceExit"
   },
   "dependencies": {
     "axios": "^0.18.0",
