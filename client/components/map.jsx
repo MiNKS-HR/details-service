@@ -6,41 +6,39 @@ class Map extends React.Component {
     super(props);
   }
 
-  componentDidCatch(err, info) {
-    
-    logErrorToMyService(err, info);
-  }
 
+  // Here we initilize the center and initMap to use in the URL
   componentDidMount() {
-    const key = this.props.bootstrapURLKeys.key;
+    const { key } = this.props.bootstrapURLKeys;
     window.initMap = this.initMap;
     window.center = this.props.defaultCenter;
-    this.loadJS(`https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`)
+    this.loadJS(`https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`);
   }
 
+
   loadJS(src) {
-    var ref = $('#map-container');
-    var script = document.createElement('script');
+    const ref = $('#map-container');
+    const script = document.createElement('script');
     script.src = src;
     script.async = true;
     ref.append(script);
   }
 
   initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
+    const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 15,
-      center: center
+      center,
     });
-    var marker = new google.maps.Marker({
+    const marker = new google.maps.Marker({
       position: center,
-      map: map
+      map,
     });
   }
-  
+
   render() {
     return (
       <div id="map-container">
-        <div id="map" style={{"width":"550px","height":"500px"}}/>
+        <div id="map" style={{ width: '550px', height: '500px' }} />
         <script id="load-map" />
       </div>);
   }
