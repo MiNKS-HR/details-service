@@ -16,19 +16,19 @@ app.get('/experience/details', (req, res) => {
   db.findAll((err, data) => {
     if (err) { res.sendStatus(40); }
     const id = Math.floor(Math.random() * Math.floor(200));
-    db.updateViews(id+1, (dberr) => { if (dberr) throw dberr; });
+    db.updateViews(id + 1, (dberr) => { if (dberr) throw dberr; });
     res.send(data[id]);
   });
 });
 
 app.get('/host/:name', (req, res) => {
   db.findHost(req.params.name, (err, data) => {
-      if (err) {
-        res.sendStatus(400);
-      } else {
-        res.send(data);
-      }
-    });
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.send(data);
+    }
+  });
 });
 
 module.exports = app;

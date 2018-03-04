@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-
-
 const modelSchema = new Schema({
   id: Number,
   host: {
@@ -34,26 +32,26 @@ const Detail = mongoose.model('Detail', modelSchema);
 
 const findAll = (callback) => {
   Detail.find({}).exec(callback);
-}
+};
 
 const insertOne = (detail, callback) => {
-  Detail.create(detail, function (err, data) {
-    if (err) return handleError(err);
+  Detail.create(detail, (err, data) => {
+    if (err) return callback(err);
     callback(data);
-  })
-}
+  });
+};
 
 const findHost = (name, callback) => {
   Detail.find({ 'host.name': name }).exec(callback);
-}
+};
 
 const updateViews = (id, callback) => {
   Detail.findOneAndUpdate(
-    { id: id },
+    { id },
     { $inc: { view_count: 1 } },
-    { new: true }
+    { new: true },
   ).exec(callback);
-}
+};
 
 module.exports.findAll = findAll;
 module.exports.insertOne = insertOne;

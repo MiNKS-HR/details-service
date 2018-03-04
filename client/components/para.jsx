@@ -5,32 +5,37 @@ class Para extends React.Component {
     super(props);
     this.state = {
       short: '',
-      clicked: false
-    }
+      clicked: false,
+    };
     this.handleClick = this.handleClick.bind(this);
-  } 
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.p.length > 400){
-      this.setState({short: this.condenceParagraph(nextProps.p)});
-    }
   }
 
-  condenceParagraph(para) {
-    let i = 400;
-    while (para[i] !== ' ') {
-      i--;
+  // Once the new props are received we need to add the
+  // condenced version as part of the state.
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.p.length > 400) {
+      let i = 400;
+      while (nextProps.p[i] !== ' ') {
+        i -= 1;
+      }
+      this.setState({ short: `${nextProps.p.slice(0, i)} . . . ` });
     }
-    return para.slice(0, i) + ' . . . ';
   }
 
   handleClick() {
-    this.setState({clicked: true});
+    this.setState({ clicked: true });
   }
 
   render() {
     if (!this.state.clicked && this.props.p.length > 400) {
-        return (<p className="cond-para">{this.state.short}<a className='clickable' onClick={this.handleClick}>+ More</a></p>);
+      return (
+        <p className="cond-para">{this.state.short}
+          <a
+            className="clickable"
+            onClick={this.handleClick}
+          >+ More
+          </a>
+        </p>);
     }
     return (<p className="para">{this.props.p}</p>);
   }
