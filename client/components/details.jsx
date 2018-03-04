@@ -9,8 +9,7 @@ class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      otherExp: [],
-      id: props.details.id,
+      otherExp: [], // These are other experiences that the host also holds
       location: props.details.location,
       host: props.details.host,
       experience: props.details.experience,
@@ -18,12 +17,12 @@ class Details extends React.Component {
       language: props.details.language,
       duration: props.details.duration,
       city: props.details.city,
-      view_count: props.details.view_count,
+      view_count: props.details.view_count, // The number of views during that week. (Should be rounded to the nearest hundred)
       spots_left: props.details.spots_left,
       what_well_do: props.details.what_well_do,
       who_can_come: props.details.who_can_come,
       what_ill_provide: props.details.what_ill_provide,
-    
+
     };
     this.getHost = this.getHost.bind(this);
     this.getExperience = this.getExperience.bind(this);
@@ -32,6 +31,8 @@ class Details extends React.Component {
   }
 
 
+  // Before the component mounts we need to retrieve the
+  // experience details.
   componentWillMount() {
     this.getExperience(console.log);
   }
@@ -40,7 +41,6 @@ class Details extends React.Component {
     axios.get('http://localhost:3004/experience/details')
       .then(({ data }) => {
         this.setState({
-          id: data.id,
           location: data.location,
           host: data.host,
           experience: data.experience,
@@ -66,6 +66,8 @@ class Details extends React.Component {
       })).catch(console.log);
   }
 
+  // This is a conditional render function. If the view count is
+  // greater than 1000 the component renders
   viewCount() {
     const count = this.state.view_count;
     if (count > 1000) {
@@ -80,7 +82,7 @@ class Details extends React.Component {
               className="gif"
               alt="Binoculars"
               src={`https://a0.muscache.com/airbnb/static/page2/icon-p2-competing-views-animated-1aa77ba0a52fd0d37a210a0f5176ddc6.gif?
-              ${new Date().getTime()}`}
+              ${new Date().getTime()}`} // In order for the gif to refresh we need to add the time as a parameter
             />
           </div>
         </div>);
@@ -88,6 +90,8 @@ class Details extends React.Component {
     return (<div />);
   }
 
+  // Another conditional render function. If the view count is
+  // less than 10 the component renders
   spotsLeft() {
     const left = this.state.spots_left;
     if (left < 10 && left !== 0) {
@@ -97,13 +101,18 @@ class Details extends React.Component {
       at Jacob And Jessica’s experience next Tuesday.
           </p>
           <div className="buffer" />
-          <img className="gif" alt="clock" src={`https://a0.muscache.com/airbnb/static/page2/icon-number-available-animated-074b392fde3b450acdc18e531e56ce61.gif?
-              ${new Date().getTime()}`} />
+          <img
+            className="gif"
+            alt="clock"
+            src={`https://a0.muscache.com/airbnb/static/page2/icon-number-available-animated-074b392fde3b450acdc18e531e56ce61.gif?
+              ${new Date().getTime()}`}
+          />
         </div>);
     }
     return (<div />);
   }
 
+  // This checks that the latitude an longitude are actual coordinates
   latLngBounds() {
     const { lat } = this.state.location;
     const { lng } = this.state.location;
@@ -124,9 +133,9 @@ class Details extends React.Component {
         <div className="info">
           <div className="info-align section">
             <div className="e-category-host"> {this.state.experience.category} experience
-              <br />Hosted by 
+              <br />Hosted by
               <div className="clickable get-host" onClick={this.getHost}>
-              &thinsp; {this.state.host.name}
+                {this.state.host.name}
               </div>
             </div>
             <div className="host-picture-container">
@@ -139,7 +148,7 @@ class Details extends React.Component {
                 className="clickable show-map"
                 onClick={() => {
               $('html, body').animate({
-                scrollTop: $('.map').offset().top,
+                scrollTop: $('#map-container').offset().top,
               }, 1000);
             }}
               >{this.state.city}
@@ -174,9 +183,9 @@ class Details extends React.Component {
           <Para p={this.state.notes} />
         </div>
         <h3>{'Where we\'ll be'}</h3>
-          {this.latLngBounds()}
+        {this.latLngBounds()}
       </div>);
-
   }
 }
+
 export default Details;
