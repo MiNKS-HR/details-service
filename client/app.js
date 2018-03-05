@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import Details from './components/details.jsx';
-import '../public/styles.css';
+import './styles.css';
 
 ReactDOM.render(<Details 
   details={{
