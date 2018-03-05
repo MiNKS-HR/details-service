@@ -135,7 +135,7 @@ class Details extends React.Component {
             <div className="e-category-host"> {this.state.experience.category} experience
               <br />Hosted by
               <div className="clickable get-host" onClick={this.getHost}>
-                {this.state.host.name}
+                &thinsp; {this.state.host.name}
               </div>
             </div>
             <div className="host-picture-container">
