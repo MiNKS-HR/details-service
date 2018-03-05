@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Palanquin:300,600');
+
+:root {
+  --width: 550px
+}
+
+#details {
+  font-family: 'Palanquin', sans-serif; 
+  width: var(--width);
+}
+
+h1 {
+  padding-left: 10px;
+}
+
+.info-align {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.info {
+  border-bottom: 1px solid;
+}
+.host-picture-container {
+  padding-right: 10px
+}
+.host-picture {
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
+}
+.e-categoty-host {
+  width: 50%;
+}
+
+.clickable {
+  display:inline-block;
+  color: mediumseagreen;
+}
+.clickable:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.buffer {
+  width: 100px;
+}
+
+.section {
+  padding-left:10px;
+  border-bottom: 1px solid gray;
+}
+
+.align {
+  display: flex;
+  width: var(--width);
+  justify-content: space-around;
+  border-bottom: 1px solid;
+}
+.count {
+  width: 300px
+}
+.gif {
+  align-self: center;
+}
+
+.map {
+  height: var(--width);
+  width: var(--width);
+}
