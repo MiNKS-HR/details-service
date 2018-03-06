@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import $ from 'jquery';
-import Map from './map.jsx';
-import Para from './para.jsx';
+import Map from './map';
+import Para from './para';
 import key from '../config';
 
 class Details extends React.Component {
@@ -17,7 +17,7 @@ class Details extends React.Component {
       language: props.details.language,
       duration: props.details.duration,
       city: props.details.city,
-      view_count: props.details.view_count, // The number of views during that week. (Should be rounded to the nearest hundred)
+      view_count: props.details.view_count, // The number of views during that week.
       spots_left: props.details.spots_left,
       what_well_do: props.details.what_well_do,
       who_can_come: props.details.who_can_come,
