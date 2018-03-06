@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
+import testDetails from '../db/testDetails';
+import db from '../db/app';
+
 const { Mockgoose } = require('mockgoose');
-import db from '../db/app.js';
-import testDetails from '../db/testDetails.js';
 
 const mockgoose = new Mockgoose(mongoose);
 
@@ -40,7 +41,8 @@ describe('Database method tests', () => {
       const vc = data.view_count;
       db.updateViews(data.id, (err) => {
         if (err) throw err;
-        db.findAll((err, updatedData) => {
+        db.findAll((ferr, updatedData) => {
+          if (ferr) throw ferr;
           expect(updatedData[0].view_count).toEqual(vc + 1);
         });
       });
