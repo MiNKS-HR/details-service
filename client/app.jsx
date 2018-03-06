@@ -1,9 +1,9 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import Details from './components/details.jsx';
+import Details from './components/details';
 import './styles.css';
 
-ReactDOM.render(<Details 
+ReactDOM.render(<Details
   details={{
     id: 0,
     location: {
@@ -27,5 +27,6 @@ ReactDOM.render(<Details
     spots_left: 0,
     what_well_do: '',
     who_can_come: '',
-    what_ill_provide: ''}}
+    what_ill_provide: '',
+}}
 />, document.getElementById('details'));
