@@ -31,7 +31,7 @@ class Para extends React.Component {
       return (
         <p className="cond-para">{this.state.short}
           <a
-            className="clickable"
+            className="clickable more"
             onClick={this.handleClick}
           >+ More
           </a>
