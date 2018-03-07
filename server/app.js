@@ -17,22 +17,26 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath,
 }));
 
-app.get('/', (req, res) => (res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))));
+const sendIndex = (req, res) => (res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
+
+app.get('/:id', sendIndex);
+app.get('/', sendIndex);
 
 app.use('/details/content', express.static(path.join(__dirname, '..', 'public')));
 
 mongoose.connect('mongodb://localhost/experiences');
 
-app.get('/details', (req, res) => {
+app.get('/details/:id', (req, res) => {
+  const id = Number(req.params.id);
   db.findAll((err, data) => {
     if (err) { res.sendStatus(404); }
-    const id = Math.floor(Math.random() * Math.floor(200));
-    db.updateViews(id + 1, (dberr) => { if (dberr) throw dberr; });
-    res.send(data[id]);
+    // const id = Math.floor(Math.random() * Math.floor(200));
+    db.updateViews(id, (dberr) => { if (dberr) throw dberr; });
+    res.send(data[id - 1]);
   });
 });
 
-app.get('/details/:name', (req, res) => {
+app.get('/details/host/:name', (req, res) => {
   db.findHost(req.params.name, (err, data) => {
     if (err) {
       res.sendStatus(400);
