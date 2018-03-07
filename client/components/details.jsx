@@ -33,12 +33,16 @@ class Details extends React.Component {
 
   // Before the component mounts we need to retrieve the
   // experience details.
-  componentWillMount() {
-    this.getExperience(console.log);
+  componentDidMount() {
+    this.getExperience();
   }
 
-  getExperience(callback) {
-    axios.get('/details')
+  getExperience() {
+    let id = Number(window.location.pathname.split('/')[1]);
+    if (id < 1 || id > 200 || isNaN(id)) {
+      id = 1;
+    }
+    axios.get(`/details/${id}`)
       .then(({ data }) => {
         this.setState({
           location: data.location,
@@ -54,12 +58,11 @@ class Details extends React.Component {
           who_can_come: data.who_can_come,
           what_ill_provide: data.what_ill_provide,
         });
-        callback();
       }).catch(console.log);
   }
 
   getHost() {
-    axios.get(`/details/${this.state.host.name}`)
+    axios.get(`/details/host/${this.state.host.name}`)
       .then((({ data }) => {
         this.setState({ otherExp: data });
         console.log(this.state.otherExp);
@@ -82,7 +85,7 @@ class Details extends React.Component {
               className="gif"
               alt="Binoculars"
               src={`https://a0.muscache.com/airbnb/static/page2/icon-p2-competing-views-animated-1aa77ba0a52fd0d37a210a0f5176ddc6.gif?
-              ${new Date().getTime()}`} // In order for the gif to refresh we need to add the time as a parameter
+              ${count}`} // In order for the gif to refresh we need to add the time as a parameter
             />
           </div>
           <hr className="separate" />
@@ -107,7 +110,7 @@ class Details extends React.Component {
               className="gif"
               alt="clock"
               src={`https://a0.muscache.com/airbnb/static/page2/icon-number-available-animated-074b392fde3b450acdc18e531e56ce61.gif?
-                ${new Date().getTime()}`}
+                ${this.state.view_count}`}
             />
           </div>
           <hr className="separate" />
@@ -169,32 +172,32 @@ class Details extends React.Component {
         {this.viewCount()}
         {this.spotsLeft()}
         <div className="about section">
-          <h3 className="sub-header"> {`About your host, ${this.state.host.name}`}</h3>
+          <h3 className="sub-header">{`About your host, ${this.state.host.name}`}</h3>
           <Para p={this.state.host.about} />
         </div>
         <hr className="separate" />
         <div className="about section">
-          <h3 className="sub-header"> {'What we\'ll do'}</h3>
+          <h3 className="sub-header">{'What we\'ll do'}</h3>
           <Para p={this.state.what_well_do} />
         </div>
         <hr className="separate" />
         <div className="provide section">
-          <h3 className="sub-header"> {'What I\'ll provide'}</h3>
+          <h3 className="sub-header">{'What I\'ll provide'}</h3>
           <Para p={this.state.what_ill_provide} />
         </div >
         <hr className="separate" />
         <div className="who section">
-          <h3 className="sub-header"> Who can come</h3>
+          <h3 className="sub-header">Who can come</h3>
           <Para p={this.state.who_can_come} />
         </div>
         <hr className="separate" />
         <div className="notes section">
-          <h3 className="sub-header"> Notes</h3>
+          <h3 className="sub-header">Notes</h3>
           <Para p={this.state.notes} />
         </div>
         <hr className="separate" />
         <div className="gmaps section">
-          <h3 className="sub-header"> {'Where we\'ll be'}</h3>
+          <h3 className="sub-header">{'Where we\'ll be'}</h3>
           {this.latLngBounds()}
         </div>
       </div>);
