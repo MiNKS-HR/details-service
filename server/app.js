@@ -17,17 +17,13 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath,
 }));
 
+app.get('/', (req, res) => (res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))));
 
-const sendIndex = (req, res) => (res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
-
-app.get('/', sendIndex);
-
-app.use('/experience/detailsContent', express.static(path.join(__dirname, '..', 'public')));
-
+app.use('/details/content', express.static(path.join(__dirname, '..', 'public')));
 
 mongoose.connect('mongodb://localhost/experiences');
 
-app.get('/experience/details', (req, res) => {
+app.get('/details', (req, res) => {
   db.findAll((err, data) => {
     if (err) { res.sendStatus(404); }
     const id = Math.floor(Math.random() * Math.floor(200));
@@ -36,7 +32,7 @@ app.get('/experience/details', (req, res) => {
   });
 });
 
-app.get('/experience/details/:name', (req, res) => {
+app.get('/details/:name', (req, res) => {
   db.findHost(req.params.name, (err, data) => {
     if (err) {
       res.sendStatus(400);
