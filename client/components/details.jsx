@@ -38,7 +38,7 @@ class Details extends React.Component {
   }
 
   getExperience(callback) {
-    axios.get('/experience/details')
+    axios.get('/details')
       .then(({ data }) => {
         this.setState({
           location: data.location,
@@ -59,7 +59,7 @@ class Details extends React.Component {
   }
 
   getHost() {
-    axios.get(`/host/${this.state.host.name}`)
+    axios.get(`/details/${this.state.host.name}`)
       .then((({ data }) => {
         this.setState({ otherExp: data });
         console.log(this.state.otherExp);
