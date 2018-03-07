@@ -30,10 +30,4 @@ describe('Front end clicking tests,', () => {
     wrapper.find('.more').simulate('click');
     expect(wrapper.find('.cond-para')).toHaveLength(0);
   });
-
-  it('should call getHost method', () => {
-    const spy = jest.spyOn(Details.prototype, 'getHost');
-    wrapper.find('.get-host').simulate('click');
-    expect(spy).toHaveBeenCalled();
-  });
 });
