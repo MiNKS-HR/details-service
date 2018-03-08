@@ -12,7 +12,8 @@
     "web": "webpack -d --watch",
     "seed": "node db/seed.js",
     "test": "jest --forceExit",
-    "test-w": "jest --watch"
+    "test-w": "jest --watch",
+    "docker": "node db/seed.js && node server/server.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
