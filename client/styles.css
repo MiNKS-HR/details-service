@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Palanquin:300,600');
 
 :root {
-  --width: 550px
+  --width: 670px
 }
 
 #details {
@@ -78,7 +78,7 @@ h1 {
   justify-content: space-around;
 } 
 .count {
-  width: 300px;
+  width: 400px;
   margin-top: 15px;
   margin-bottom: 15px;
 }
@@ -88,5 +88,5 @@ h1 {
 
 .map {
   height: var(--width);
-  width: var(--width);
+  width: 550px;
 }
