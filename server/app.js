@@ -24,7 +24,7 @@ app.get('/', sendIndex);
 
 app.use('/details/content', express.static(path.join(__dirname, '..', 'public')));
 
-mongoose.connect('mongodb://localhost/experiences');
+mongoose.connect('mongodb://database/experiences');
 
 app.get('/details/:id', (req, res) => {
   const id = Number(req.params.id);

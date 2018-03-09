@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const mock = require('./mock.json');
 
-mongoose.connect('mongodb://localhost/experiences');
+mongoose.connect('mongodb://database/experiences');
 
 const { Schema } = mongoose;
 const modelSchema = new Schema({
