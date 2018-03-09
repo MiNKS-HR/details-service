@@ -38,7 +38,7 @@ class Map extends React.Component {
   render() {
     return (
       <div id="map-container">
-        <div id="map" style={{ width: '550px', height: '500px' }} />
+        <div id="map" />
         <script id="load-map" />
       </div>);
   }
