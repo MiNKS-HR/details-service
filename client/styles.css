@@ -86,7 +86,7 @@ h1 {
   align-self: center;
 }
 
-.map {
-  height: var(--width);
-  width: 550px;
+#map {
+  height: 550px;
+  width: var(--width);
 }
