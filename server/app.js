@@ -30,7 +30,6 @@ app.get('/details/:id', (req, res) => {
   const id = Number(req.params.id);
   db.findAll((err, data) => {
     if (err) { res.sendStatus(404); }
-    // const id = Math.floor(Math.random() * Math.floor(200));
     db.updateViews(id, (dberr) => { if (dberr) throw dberr; });
     res.send(data[id - 1]);
   });

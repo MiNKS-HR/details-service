@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import sinon from 'sinon';
 import Details from '../client/components/details';
 import testDetails from '../db/testDetails';
 
